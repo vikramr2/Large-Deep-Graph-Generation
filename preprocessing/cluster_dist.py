@@ -23,10 +23,11 @@ cluster_sizes = cluster_sizes[cluster_sizes > 2]
 
 # Plot the distribution of cluster sizes
 plt.hist(cluster_sizes, bins=100)
+plt.yscale('log')
 plt.xlabel("Cluster size")
 plt.ylabel("Frequency")
 plt.title("Distribution of cluster sizes")
-plt.savefig("cluster_sizes_dist.01.png")
+plt.savefig(f"{argv[2]}.png")
 
 # Get a cumulative distribution of cluster sizes as a line plot
 # cluster_sizes = cluster_sizes.sort_values()
