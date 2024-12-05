@@ -21,4 +21,12 @@ source ./bin/activate
 
 pip install -r ./requirements.txt
 pip install -e .
+
+# Install PyTorch 1.9.0 which has better compatibility
+pip install torch==1.9.0 torchvision==0.10.0
+pip install torch-scatter==2.0.8
+
+# Build torch-scatter from source as fallback
+pip install --no-binary torch-scatter torch-scatter
+
 python -m bigg.unit_test.lib_test
