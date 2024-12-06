@@ -1,18 +1,18 @@
 {
-    "n_nodes": 25956,
-    "n_edges": 333080,
+    "n_nodes": 26604,
+    "n_edges": 341404,
     "n_concomp": 1,
-    "deg_assort": -0.002282073159600835,
-    "global_ccoeff": 0.15839195072107048,
-    "local_ccoeff": 0.30924973973338277,
-    "diameter": 12,
+    "deg_assort": 0.0018320154128480363,
+    "global_ccoeff": 0.1616601359289432,
+    "local_ccoeff": 0.30941495304957284,
+    "diameter": 13,
     "n_onodes": 0,
     "o_o_edges": 0,
     "o_no_edges": 0,
-    "n_clusters": 52,
+    "n_clusters": 131,
     "n_disconnects": 0,
     "ratio_disconnected_clusters": 0.0,
-    "n_wellconnected_clusters": 0,
-    "ratio_wellconnected_clusters": 0.0,
-    "mixing_xi": 0.3185571033985829
+    "n_wellconnected_clusters": 3,
+    "ratio_wellconnected_clusters": 0.022900763358778626,
+    "mixing_xi": 0.41365654766786564
 }
