@@ -4,3 +4,6 @@
 [submodule "external/cm_pipeline"]
 	path = external/cm_pipeline
 	url = https://github.com/illinois-or-research-analytics/cm_pipeline.git
+[submodule "external/GraphGDP"]
+	path = external/GraphGDP
+	url = https://github.com/GRAPH-0/GraphGDP.git

@@ -16,10 +16,16 @@
 set -e
 set -x
 
+rm -rf lib bin include share
+
 virtualenv -p python3 .
 source ./bin/activate
 
 pip install -r ./requirements.txt
+
+pip uninstall numpy
+pip install "numpy<2.0.0"
+
 pip install -e .
 
 # Install PyTorch 1.9.0 which has better compatibility
