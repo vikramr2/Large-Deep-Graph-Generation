@@ -64,21 +64,27 @@ def distance(G1, G2):
     return wasserstein_distance(deg1, deg2)
 
 
+pbar = tqdm(total=len(orig_subnetworks))
+d = np.zeros((len(orig_subnetworks), len(syn_subnetworks)))
+for i, orig_subnetwork in enumerate(orig_subnetworks):
+    pbar.set_description(f'Orig {i}')
+    pbar.update(1)
+    for j, syn_subnetwork in enumerate(syn_subnetworks):
+        orig_G = nx.Graph(orig_subnetwork)
+        syn_G = nx.Graph(syn_subnetwork)
+        d[i, j] = distance(orig_G, syn_G)
+p = np.exp(-d)
+p = p / p.sum(axis=1, keepdims=True)
+
 pbar = tqdm(range(n_reps))
 for rep in pbar:
     pbar.set_description(f'Rep {rep}')
 
     chosen_subnetworks = dict()
+
     for i, orig_subnetwork in enumerate(orig_subnetworks):
-        d = np.zeros(len(syn_subnetworks))
-        for j, syn_subnetwork in enumerate(syn_subnetworks):
-            orig_G = nx.Graph(orig_subnetwork)
-            syn_G = nx.Graph(syn_subnetwork)
-            d[j] = distance(orig_G, syn_G)
         # Select randomly based on the distance (the smaller the better)
-        p = np.exp(-d)
-        p /= p.sum()
-        selected_iid = np.random.choice(len(syn_subnetworks), p=p)
+        selected_iid = np.random.choice(len(syn_subnetworks), p=p[i])
         selected_id = syn_cluster_iid2id[selected_iid]
         chosen_subnetworks[orig_cluster_iid2id[i]] = selected_id
 

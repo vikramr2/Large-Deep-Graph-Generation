@@ -5,6 +5,9 @@ import numpy as np
 import networkx as nx
 from tqdm import tqdm
 import argparse
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
 
 parser = argparse.ArgumentParser(description='Subnetwork stitching script.')
 parser.add_argument('--network_id', type=str,
@@ -67,6 +70,35 @@ non_zero_mixing_params = [mixing_params[v]
                           for v in mixing_params if mixing_params[v] > 0]
 a, b, loc, scale = beta.fit(non_zero_mixing_params)
 print('Fitted a, b, loc, scale:', a, b, loc, scale)
+
+# Sample from the fitted distribution
+n_samples = len(mixing_params)
+
+samples = beta.rvs(a, b, loc, scale, size=n_samples)
+samples[np.random.rand(n_samples) < pi] = 0.0
+
+# Plot the samples overlayed on the real samples
+fig, ax = plt.subplots(1, 1, figsize=(6, 4), dpi=150)
+
+mixing_params_series = pd.Series([mixing_params[v] for v in mixing_params])
+sns.histplot(mixing_params_series, ax=ax, stat='density',
+             alpha=0.3, label='Real', color='blue')
+
+sns.histplot(samples, ax=ax, stat='density',
+             alpha=0.6, label='Sampled', color='green')
+
+# Plot the fitted beta distribution
+x = np.linspace(0, 1, 100)
+y = (1 - pi) * beta.pdf(x, a, b, loc, scale)
+ax.plot(x, y, 'r--', label='Fitted Beta Distribution')
+
+ax.set_title('Mixing parameter samples vs real')
+ax.set_xlim(0, 1)
+ax.legend()
+
+mu_pdf_dir = Path(f'test_data/plots/{network_id}')
+mu_pdf_dir.mkdir(parents=True, exist_ok=True)
+plt.savefig(mu_pdf_dir / 'mixing_params.pdf')
 
 # Subnetwork stiching
 

@@ -67,8 +67,12 @@ def analyze_distances(root_dir, output_dir):
                     # Use seaborn for better visualization
                     sns.histplot(subset['distance'],
                                  kde=True, stat='probability')
-                    plt.axvline(0.0, color='red', linestyle='dotted',
-                                linewidth=2)  # Add vertical line
+                    # if max and min are opposite signs, add a vertical line at 0
+                    if subset['distance'].max() * subset['distance'].min() < 0:
+                        plt.axvline(0.0, color='red', linestyle='dotted',
+                                    linewidth=2)
+                    # plt.axvline(0.0, color='red', linestyle='dotted',
+                    #             linewidth=2)  # Add vertical line
                     plt.title(
                         f"Distance Distribution for {stat} ({stat_type}, {distance_type})")
                     plt.xlabel("Distance")
