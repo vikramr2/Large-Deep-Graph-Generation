@@ -31,7 +31,6 @@ SCALAR_STATS = {
     'n_concomp',
     'deg_assort',
     'global_ccoeff',
-    'local_ccoeff',
     'diameter',
 
     'n_onodes',
@@ -48,6 +47,7 @@ SCALAR_STATS = {
 
 DISTR_STATS = {
     'degree',
+    'local_ccoeff',
     'concomp_sizes',
 
     'osub_degree',
@@ -280,6 +280,14 @@ def compute_stats(input_network, input_clustering, output_folder, overwrite):
         distr_stats['degree'] = deg_distr
     logging.info(f'Time taken: {time.perf_counter() - start_time:.3f} seconds')
 
+    # local clustering coefficients distribution
+    logging.info('Stats - Local clustering coefficients distribution')
+    start_time = time.perf_counter()
+    if 'local_ccoeff' in stats_to_compute:
+        local_ccoeff_distr = compute_local_ccoeff_distr(graph, node_order)
+        distr_stats['local_ccoeff'] = local_ccoeff_distr
+    logging.info(f'Time taken: {time.perf_counter() - start_time:.3f} seconds')
+
     # TODO: S12?
 
     # S21 - diameter
@@ -484,8 +492,8 @@ def log_cpu_ram_usage(step_name):
     cpu_percent = psutil.cpu_percent()
     ram_percent = psutil.virtual_memory().percent
     disk_percent = psutil.disk_usage('/').percent
-    logging.info(f'Step: {step_name} | CPU Usage: {cpu_percent}% | RAM Usage: {
-                 ram_percent}% | Disk Usage: {disk_percent}')
+    logging.info(f'Step: {step_name} | CPU Usage: {cpu_percent} % | RAM Usage: {
+                 ram_percent} % | Disk Usage: {disk_percent}')
 
 
 def save_distr_stats(dir_path, distr_stats_dict, overwrite):
@@ -590,6 +598,15 @@ def get_outliers(graph, node_mapping, clustering_dict):
 def compute_deg_distr(graph, node_order):
     return [
         graph.degree(v)
+        for v in node_order
+    ]
+
+
+def compute_local_ccoeff_distr(graph, node_order):
+    nx_graph = nk.nxadapter.nk2nx(graph)
+    clustering_coeffs = nx.clustering(nx_graph)
+    return [
+        clustering_coeffs[v]
         for v in node_order
     ]
 
