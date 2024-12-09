@@ -1,0 +1,18 @@
+{
+    "n_nodes": 26522,
+    "n_edges": 164560,
+    "n_concomp": 25,
+    "deg_assort": 0.06376721573263237,
+    "global_ccoeff": 0.05585809917199345,
+    "local_ccoeff": 0.17771754572988355,
+    "diameter": 10,
+    "n_onodes": 0,
+    "o_o_edges": 0,
+    "o_no_edges": 0,
+    "n_clusters": 131,
+    "n_disconnects": 35,
+    "ratio_disconnected_clusters": 0.26717557251908397,
+    "n_wellconnected_clusters": 0,
+    "ratio_wellconnected_clusters": 0.0,
+    "mixing_xi": 0.4727941176470588
+}
